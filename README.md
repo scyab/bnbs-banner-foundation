@@ -3,8 +3,8 @@ Banner
 
 ## FILER AV INTRESSE
 
-./js/script.js
-./css/styles.less
+./js/script.js + 
+./css/styles.less +
 ./index.html
 
 ## För att börja leka
