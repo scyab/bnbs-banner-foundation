@@ -9,7 +9,7 @@ Banner
 
 ## För att börja leka
 
-#Du behöver:
+###Du behöver:
 
 1.
 [Homebrew](http://brew.sh/)
