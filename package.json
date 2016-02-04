@@ -1,0 +1,18 @@
+{
+  "name": "bnbs-banner-foundation",
+  "version": "0.1.0",
+  "description": "Framework for creating HTML5 banners for the Bonnier News network",
+  "author": {
+    "name": "Marcus Kilander",
+    "email": "marcus.kilander@bonniernews.se",
+    "url": "http://www.bonniernewssales.se/brandstudio"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-less": "~1.1.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-uglify": "~0.11.0",
+    "grunt-image-embed": "~0.3.3",
+    "grunt-text-replace": "~0.4.0"
+  }
+}

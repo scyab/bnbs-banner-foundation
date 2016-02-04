@@ -1,6 +1,14 @@
 'use strict';
 module.exports = function(grunt) {
 	grunt.initConfig({
+		pkg: grunt.file.readJSON('package.json'),
+		checkDependencies: {
+	        this: {
+	            options: {
+	                install: true,
+	            },
+	        },
+	    },
 		// running `grunt less` will compile once
 		less: {
 			development: {
@@ -9,25 +17,55 @@ module.exports = function(grunt) {
 					compress: true
 				},
 				files: {
-					"./css/styles.css": "./css/styles.less"
+					"./css/styles.css": "./css/styles64.less"
 				}
 			},
-
+		},
+		// base64 encode imagefiles into CSS
+		imageEmbed: {
+		    dist: {
+		      src: [ "./css/styles.less" ],
+		      dest: "css/styles64.less",
+		      options: {
+		        deleteAfterEncoding : false,
+		        maxImageSize : 0,
+		        preEncodeCallback: function (filename) { return true; }
+		      }
+		    }
+		  },
+		// Insert minified code -> ./index.html
+		replace: {
+		  	insertugly: {
+			    src: ['./source/index.html',],
+				dest: './index.html',
+				replacements: [{
+					from: '-UGLYCSSGOESHERE-',
+					to: '<%= grunt.file.read("./css/styles.css") %>'
+				},{
+					from: '-UGLYJSGOESHERE-',
+					to: '<%= grunt.file.read("./js/script.js.min") %>'
+				}]
+			},
+		},
+		// Minify JS
+		uglify: {
+		js: {
+			src: ["./js/*.js"],
+			dest: "./js/script.js.min"
+		}
 		},
 	// running `grunt watch` will watch for changes
 	watch: {
-		files: "./css/*.less",
-		tasks: ["less"]
+		files: "./css/styles.less",
+		tasks: ["imageEmbed","less","uglify","replace"]
 	},
-	uglify: {
-		js: {
-			src: ["./js/jquery.js", "./js/flipclock.js", "./js/script.js"],
-			dest: "./js/script.min.js"
-		}
-	}
 });
-	grunt.registerTask('jsmin', ['uglify']);
+	grunt.registerTask('check', ['checkDependencies',]);
+	grunt.registerTask('jsmin', ['uglify',]);
+	grunt.loadNpmTasks('grunt-check-dependencies');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-image-embed');
+	grunt.loadNpmTasks('grunt-text-replace');
 };
